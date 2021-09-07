@@ -1,11 +1,11 @@
-//use it when sseparate items in lists
+//use it when separate items in lists
 //for example: MessagesScreen.js
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import colors from '../config/colors';
 
-function ListItemSeperator() {
+function ListItemSeparator() {
     return (
         <View style={styles.seperator}></View>
     );
@@ -19,4 +19,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ListItemSeperator;
+export default ListItemSeparator;

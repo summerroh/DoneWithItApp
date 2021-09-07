@@ -10,7 +10,6 @@ function AppCard({title, subtitle, image}) {
     return (
 
             <View style={styles.card}>
-         
                 <Image source={image} style={styles.image} />
                     
                 <View style={styles.textContainer}>
