@@ -5,9 +5,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import defaultStyles from '../config/styles';
 
 //...otherProps means you can use all the props of textinput outside of this component(as a consumer of this component)
-function AppTextInput({ icon, ...otherProps }) {
+function AppTextInput({ icon, width, ...otherProps }) {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {width: width}]}>
       {icon && <MaterialCommunityIcons name={icon} size={20} color={defaultStyles.colors.medium} style={styles.icon}/>}
       <TextInput 
         placeholderTextColor={defaultStyles.colors.medium}

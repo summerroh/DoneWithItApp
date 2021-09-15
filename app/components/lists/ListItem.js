@@ -1,11 +1,12 @@
 import React from 'react';
 import { Image, StyleSheet, TouchableHighlight, View } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 import AppText from '../AppText';
 import colors from '../../config/colors';
 
-function ListItem({title, subtitle, image, IconComponent, onPress, swipeRightActions}) {
+function ListItem({title, subtitle, image, IconComponent, onPress, swipeRightActions, showChevrons}) {
     return (
         <Swipeable renderRightActions={swipeRightActions}>
             <TouchableHighlight 
@@ -17,9 +18,10 @@ function ListItem({title, subtitle, image, IconComponent, onPress, swipeRightAct
                     {/* check if ther is an image and if true, render the image component */}
                     {image && <Image style={styles.image} source={image} />}
                     <View style={styles.textContainer}>
-                        <AppText style={styles.title}>{title}</AppText>
-                        {subtitle && <AppText style={styles.subtitle}>{subtitle}</AppText>}
+                        <AppText style={styles.title} numberOfLines={1}>{title}</AppText>
+                        {subtitle && <AppText style={styles.subtitle} numberOfLines={2}>{subtitle}</AppText>}
                     </View>
+                    {showChevrons && <MaterialCommunityIcons name='chevron-right' size={25} color={colors.medium}/>}
                 </View>
             </TouchableHighlight>
         </Swipeable>
@@ -28,12 +30,13 @@ function ListItem({title, subtitle, image, IconComponent, onPress, swipeRightAct
 
 const styles = StyleSheet.create({
     container: {
+        alignItems: 'center',
         flexDirection: 'row',
         padding: 15,
-        alignItems: 'center',
         backgroundColor: colors.white,
     },
     textContainer: {
+        flex: 1,
         marginLeft: 10,
         justifyContent: 'center',
     },
@@ -47,7 +50,7 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         color: colors.medium,
-    }
+    },
 })
 
 export default ListItem;

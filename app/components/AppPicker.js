@@ -1,3 +1,4 @@
+//parent: AppFormPicker
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Modal, Button, FlatList } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
@@ -8,13 +9,13 @@ import Screen from './Screen';
 import PickerItem from './PickerItem';
 
 //...otherProps means you can use all the props of textinput outside of this component(as a consumer of this component)
-function AppPicker({ icon, placeholder, items, onSelectItem, selectedItem }) {
+function AppPicker({ icon, placeholder, items, onSelectItem, selectedItem, width, numberOfColumns=1, PickerItemComponent=PickerItem, }) {
   const [modalVisible, setModalVisible] = useState(false);
   
   return (
     <>
       <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
-        <View style={styles.container}>
+        <View style={[styles.container, {width: width}]}>
           {icon && 
             <MaterialCommunityIcons 
               name={icon} 
@@ -37,11 +38,13 @@ function AppPicker({ icon, placeholder, items, onSelectItem, selectedItem }) {
         <Screen>
         <Button title='Close' onPress={() => setModalVisible(false)}></Button>
         <FlatList
+          // contentContainerStyle={{alignItems: 'center'}}
+          numColumns={numberOfColumns}
           data={items}
           keyExtractor={item => item.value.toString()}
           renderItem={({ item }) => 
-          <PickerItem 
-            label={item.label} 
+          <PickerItemComponent 
+            item={item}
             onPress={() => {
               setModalVisible(false);
               onSelectItem(item);
