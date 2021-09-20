@@ -1,5 +1,6 @@
 //this is a component that conbines AppPicker and Errormessage
 //similar to AppFormField
+//using with Formlik
 import React from 'react';
 import { useFormikContext } from 'formik';
 

@@ -1,28 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, TextInput, View, Text } from 'react-native';
 
-import WelcomeScreen from './app/screens/WelcomeScreen'
-import ViewImageScreen from './app/screens/ViewImageScreen'
-import ListingDetailsScreen from './app/screens/ListingDetailsScreen'
-import AppButton from './app/components/AppButton'
-import AppCard from './app/components/AppCard'
-import MessagesScreen from './app/screens/MessagesScreen';
-import MyAccountScreen from './app/screens/MyAccountScreen';
-import ListingsScreen from './app/screens/ListingsScreen';
+import React, { useEffect, useState } from 'react';
+import { Button, Text } from 'react-native'
+
 import Screen from './app/components/Screen';
-import AppTextInput from './app/components/AppTextInput';
-import AppPicker from './app/components/AppPicker';
+import ListingEditScreen from './app/screens/ListingEditScreen';
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+
+
+import WelcomeScreen from './app/screens/WelcomeScreen';
 import LoginScreen from './app/screens/LoginScreen';
 import RegisterScreen from './app/screens/RegisterScreen';
-import ListingEditScreen from './app/screens/ListingEditScreen';
+import AuthNavigator from './app/navigation/AuthNavigator';
+import navigationTheme from './app/navigation/navigationTheme';
 
 
 export default function App() {
   
   return (
-    <ListingEditScreen />
-    
+
+    <NavigationContainer theme={navigationTheme}>
+      <AuthNavigator />
+    </NavigationContainer>
 
   );
 }

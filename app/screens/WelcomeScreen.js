@@ -9,7 +9,7 @@ import colors from '../config/colors';
 const backgroundImage = require('../assets/background.jpg');
 const logo = require('../assets/logo-red.png');
 
-export default function WelcomeScreen() {
+export default function WelcomeScreen({ navigation }) {
 
 
   return (
@@ -21,11 +21,11 @@ export default function WelcomeScreen() {
         </View>
         
         <View style={styles.buttonView}>
-          <AppButton title='LOGIN' onPress={()=>console.log('login button pressed')}>
+          <AppButton title='LOGIN' onPress={() => navigation.navigate("Login")}>
 
           </AppButton>
 
-          <AppButton title='REGISTER' color='secondary' onPress={()=>console.log('register button pressed')}>
+          <AppButton title='REGISTER' color='secondary' onPress={() => navigation.navigate("Register")}>
 
           </AppButton>
         </View>

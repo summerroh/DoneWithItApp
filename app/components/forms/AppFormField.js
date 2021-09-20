@@ -1,5 +1,7 @@
+//this is a component that conbines AppTextInput and Errormessage
 //similar to AppFormPicker
 //used in LoginScreen
+//using with Formlik
 import React from 'react';
 import { useFormikContext } from 'formik';
 
