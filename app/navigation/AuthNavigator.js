@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import WelcomeScreen from '../screens/WelcomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 const AuthNavigator = () => (
  
@@ -18,13 +18,11 @@ const AuthNavigator = () => (
     <Stack.Screen 
       name='Login' 
       component={ LoginScreen }
-     //  options={({ route }) => ({ title: route.params.id })}
     />
     
     <Stack.Screen 
       name='Register' 
       component={ RegisterScreen }
-     //  options={({ route }) => ({ title: route.params.id })}
     />
   </Stack.Navigator>
 )

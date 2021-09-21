@@ -5,6 +5,7 @@ import { StyleSheet, ImageBackground, Text, TouchableWithoutFeedback, View, Dime
 import AppText from '../components/AppText';
 import AppButton from '../components/AppButton';
 import colors from '../config/colors';
+import routes from '../navigation/routes';
 
 const backgroundImage = require('../assets/background.jpg');
 const logo = require('../assets/logo-red.png');
@@ -21,11 +22,11 @@ export default function WelcomeScreen({ navigation }) {
         </View>
         
         <View style={styles.buttonView}>
-          <AppButton title='LOGIN' onPress={() => navigation.navigate("Login")}>
+          <AppButton title='LOGIN' onPress={() => navigation.navigate(routes.LOGIN)}>
 
           </AppButton>
 
-          <AppButton title='REGISTER' color='secondary' onPress={() => navigation.navigate("Register")}>
+          <AppButton title='REGISTER' color='secondary' onPress={() => navigation.navigate(routes.REGISTER)}>
 
           </AppButton>
         </View>

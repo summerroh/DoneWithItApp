@@ -1,14 +1,14 @@
 import React from 'react';
-import { Image, View, StyleSheet, Text } from 'react-native';
+import { Image, View, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
 
 import colors from '../config/colors';
 import AppText from './AppText';
 
 // const image = require('../assets/jacket.jpg');
 
-function AppCard({title, subtitle, image}) {
+function AppCard({title, subtitle, image, onPress}) {
     return (
-
+        <TouchableWithoutFeedback onPress={onPress}>
             <View style={styles.card}>
                 <Image source={image} style={styles.image} />
                     
@@ -17,6 +17,7 @@ function AppCard({title, subtitle, image}) {
                     <AppText numberOfLines={1} style={styles.subtitle}>{subtitle}</AppText>
                 </View>
             </View>
+        </TouchableWithoutFeedback>
     );
 }
 
