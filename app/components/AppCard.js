@@ -6,15 +6,15 @@ import AppText from './AppText';
 
 // const image = require('../assets/jacket.jpg');
 
-function AppCard({title, subtitle, image, onPress}) {
+function AppCard({title, subTitle, imageUrl, onPress}) {
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={styles.card}>
-                <Image source={image} style={styles.image} />
+                <Image style={styles.image} source={{uri: imageUrl}} />
                     
                 <View style={styles.textContainer}>
                     <AppText numberOfLines={1} style={styles.title}>{title}</AppText>
-                    <AppText numberOfLines={1} style={styles.subtitle}>{subtitle}</AppText>
+                    <AppText numberOfLines={1} style={styles.subTitle}>{subTitle}</AppText>
                 </View>
             </View>
         </TouchableWithoutFeedback>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     title: {
         marginBottom: 7,
     },
-    subtitle: {
+    subTitle: {
         fontSize: 18,
         fontWeight: 'bold',
         color: colors.secondary,
