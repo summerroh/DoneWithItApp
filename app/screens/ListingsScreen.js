@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 
+import ActivityIndicator from '../components/ActivityIndicator';
 import AppCard from '../components/AppCard';
 import AppText from '../components/AppText';
 import AppButton from '../components/AppButton';
@@ -8,44 +9,49 @@ import Screen from '../components/Screen';
 import colors from '../config/colors';
 import routes from '../navigation/routes';
 
-//imports from the backend
+//imports for the backend
 import listingsApi from '../api/listings';
- 
+import useApi from '../hooks/useApi';
 
 function ListingsScreen({ navigation }) {
-// backend stuff starts //
-  const [listings, setListings] = useState([]);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const getListingsApi = useApi(listingsApi.getListings);
 
-  //calls the api the first time this component gets render
-  useEffect(() => {
-    loadListings();
+    useEffect(() => {
+      getListingsApi.request();
   }, []);
+  
+// what the 7 lines of code above is doing starts //
+  // const [listings, setListings] = useState([]);
+  // const [error, setError] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
-  const loadListings = async () => {
-    setLoading(true);
-    const response = await listingsApi.getListings();
-    setLoading(false);
+  // useEffect(() => {
+  //   loadListings();
+  // }, []);
 
-    if (!response.ok) return setError(true);
+  // const loadListings = async () => {
+  //   setLoading(true);
+  //   const response = await listingsApi.getListings();
+  //   setLoading(false);
+
+  //   if (!response.ok) return setError(true);
     
-    setError(false);
-    setListings(response.data);
-  }
-// backend stuff ends //
+  //   setError(false);
+  //   setListings(response.data);
+  // }
+// what the 7 lines of code above is doing finishes //
 
   return (
     <Screen style={styles.screen}>
       {/* below lines are backend stuff, print error message if Error == true*/}
-      {error && (<> 
+      {getListingsApi.error && (<> 
         <AppText>Couldn't retrieve the listings.</AppText> 
         <AppButton title='Retry' onPress={loadListings} />
       </>)}
          {/* below line is backend stuff,show loading animation while getting the data */}
-        <ActivityIndicator animating={loading} size='large' color="#0000ff"/>
+        <ActivityIndicator visible={getListingsApi.loading} />
         <FlatList
-          data={listings}
+          data={getListingsApi.data}
           keyExtractor={Item => Item.id.toString()}
           renderItem={({ item }) => 
             <AppCard
