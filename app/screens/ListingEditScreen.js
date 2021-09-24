@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
 
@@ -12,6 +12,10 @@ import {
 import CategoryPickerItem from "../components/CategoryPickerItem";
 import FormImagePicker from "../components/forms/FormImagePicker";
 import useLocation from "../hooks/useLocation";
+
+
+//import for the backend
+import listingsApi from '../api/listings';
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1, 'Too Short!').label("Title"),
@@ -82,11 +86,21 @@ function ListingEditScreen() {
   //custom hook to get the user's location
   const location = useLocation();
 
+  // backend stuff - posting a listing to the server starts //
+  const handleSubmit = async (listing) => {
+    const result = await listingsApi.addListing({ ...listing, location });
+    if (!result.ok) 
+      return alert(result.originalError);
+    alert('Success');
+  }
+  // backend stuff - posting a listing to the server finishes //
+
   return (
     <Screen style={styles.container}>
+
       <Form
         initialValues={{ title: "", price: "", description: "", category: null, images: [], }}
-        onSubmit={(values) => console.log(location)}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <FormImagePicker 
