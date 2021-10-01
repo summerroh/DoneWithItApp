@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, ImageBackground, Text, TouchableWithoutFeedback, View, Dimensions, Image } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 import colors from '../config/colors';
