@@ -6,11 +6,11 @@ import AppText from './AppText';
 
 // const image = require('../assets/jacket.jpg');
 
-function AppCard({title, subTitle, image, onPress}) {
+function AppCard({title, subTitle, imageUrl, onPress}) {
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={styles.card}>
-                <Image style={styles.image} source={image} />
+                <Image style={styles.image} source={{ uri: imageUrl}} />
                     
                 <View style={styles.textContainer}>
                     <AppText numberOfLines={1} style={styles.title}>{title}</AppText>

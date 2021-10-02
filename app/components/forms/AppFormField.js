@@ -9,7 +9,7 @@ import AppTextInput from '../AppTextInput';
 import ErrorMessage from './ErrorMessage';
 
 function AppFormField({ name, width, ...otherProps }) {
-  const{ handleChange, errors, setFieldTouched, touched } = useFormikContext();
+  const{ handleChange, errors, setFieldTouched, touched, values } = useFormikContext();
   
   return (
     <>
@@ -24,6 +24,7 @@ function AppFormField({ name, width, ...otherProps }) {
         // placeholder='Email'
         // textContentType='emailAddress'
         width={width}
+        value={values[name]}
       />
     <ErrorMessage error={errors[name]} visible={touched[name]}/>
     </>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
 
@@ -12,7 +12,7 @@ import {
 import CategoryPickerItem from "../components/CategoryPickerItem";
 import FormImagePicker from "../components/forms/FormImagePicker";
 import useLocation from "../hooks/useLocation";
-
+import UploadScreen from "./UploadScreen";
 
 //import for the backend
 import listingsApi from '../api/listings';
@@ -87,17 +87,30 @@ function ListingEditScreen() {
   const location = useLocation();
 
   // backend stuff - posting a listing to the server starts //
-  const handleSubmit = async (listing) => {
-    const result = await listingsApi.addListing({ ...listing, location });
-    if (!result.ok) 
-      return alert(result.originalError);
-    alert('Success');
+  const [uploadScreenVisible, setUploadScreenVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const handleSubmit = async (listing, {resetForm}) => {
+    setProgress(0);
+    setUploadScreenVisible(true);
+    
+    const result = await listingsApi.addListing(
+      { ...listing, location },
+      //progress info for progressbar 
+      (progressEvent) => setProgress(progressEvent));
+
+    if (!result.ok) {
+      setUploadScreenVisible(false);
+      return alert('Could not save the listing.');
+    }
+    //if success, reset form
+    resetForm();
   }
   // backend stuff - posting a listing to the server finishes //
 
   return (
     <Screen style={styles.container}>
-
+      <UploadScreen progress={progress} visible={uploadScreenVisible} onAnimationFinish={() => setUploadScreenVisible(false)}/>
       <Form
         initialValues={{ title: "", price: "", description: "", category: null, images: [], }}
         onSubmit={handleSubmit}
