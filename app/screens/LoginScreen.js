@@ -1,13 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import * as Yup from 'yup';
-import jwtDecode from 'jwt-decode';
 
 import Screen from '../components/Screen';
 import { AppForm, AppFormField, SubmitButton, ErrorMessage } from '../components/forms';
 import authApi from '../api/auth';
-import AuthContext from '../auth/context';
-import authStorage from '../auth/storage';
+import useAuth from '../auth/useAuth';
 
 //validation schema is an object that determines all the rules for validating our form
 const validationSchema = Yup.object().shape({
@@ -16,17 +14,15 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginScreen() {
-  const authContext = useContext(AuthContext);
+  const auth = useAuth();
   const [loginFailed, setLoginFailed] = useState(false);
 
   handleSubmit = async ({ email, password }) => {
     const result = await authApi.login(email, password)
     if (!result.ok) return setLoginFailed(true)
-    //login succeded
+    //login successful
     setLoginFailed(false);
-    const user = jwtDecode(result.data);
-    authContext.setUser(user);
-    authStorage.storeToken(result.data);
+    auth.logIn(result.data);
   };
 
   return (

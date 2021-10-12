@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
 
@@ -7,7 +7,15 @@ import {
   AppForm as Form,
   AppFormField as FormField,
   SubmitButton,
+  ErrorMessage
 } from "../components/forms";
+
+import usersApi from '../api/users';
+import authApi from '../api/auth';
+import useAuth from '../auth/useAuth';
+import useApi from "../hooks/useApi";
+
+import ActivityIndicator from "../components/ActivityIndicator";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().label("Name"),
@@ -16,13 +24,44 @@ const validationSchema = Yup.object().shape({
 });
 
 function RegisterScreen() {
+  //see showing an activity indicator tutorial
+  //showing an activitiindicator using useApi hook
+  const registerApi = useApi(usersApi.register);
+  const loginApi = useApi(authApi.login);
+
+  const auth = useAuth();
+  const [error, setError] = useState(false);
+
+  //userInfo is a object formik gives us, it contains name, email and password
+  const handleSubmit = async ( userInfo ) => {
+    const result = await registerApi.request( userInfo )
+
+    if (!result.ok){ 
+     if (result.data) {setError(result.data.error);}
+     else {
+       setError("An unexpected error occured.");
+       //in a real app, we should log it using a logging service
+      //  console.log(result);
+      }
+      return;
+     }
+
+    //registration successful, now log in using auth.js
+            //destructuring the result, picking the data property and rename it to authToken
+    const { data: authToken } = await loginApi.request(userInfo.email, userInfo.password);
+    auth.logIn(authToken); 
+  };
+
   return (
+    <>
+    <ActivityIndicator visible={registerApi.loading || loginApi.loading}/>
     <Screen style={styles.container}>
       <Form
         initialValues={{ name: "", email: "", password: "" }}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
+      <ErrorMessage error={error} visible={error}/>
         <FormField
           autoCorrect={false}
           icon="account"
@@ -50,6 +89,7 @@ function RegisterScreen() {
         <SubmitButton title="Register" />
       </Form>
     </Screen>
+    </>
   );
 }
 

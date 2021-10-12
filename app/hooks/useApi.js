@@ -1,4 +1,5 @@
 //with this hook, we call API endpoints
+//also takes care of the loading state
 
 import { useState } from "react";
 
@@ -15,12 +16,10 @@ export default useApi = (apiFunc) => {
     // hide Activityindicator when loading is done
     setLoading(false);
 
-    // check for any errors
-    if (!response.ok) return setError(true);
-
-    // if no errors, display our data
-    setError(false);
+    setError(!response.ok);
     setData(response.data);
+
+    return response;
   };
 
   return { data, error, loading, request };

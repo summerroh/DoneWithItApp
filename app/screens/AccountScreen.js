@@ -7,8 +7,7 @@ import Icon from '../components/Icon';
 import routes from "../navigation/routes";
 import ListItem from '../components/lists/ListItem';
 import ListItemSeparator from '../components/lists/ListItemSeparator';
-import AuthContext from '../auth/context';
-import authStorage from '../auth/storage';
+import useAuth from '../auth/useAuth';
 
 const menuItems = [
   {
@@ -29,15 +28,9 @@ const menuItems = [
 ]
 
 function AccountScreen({ navigation }) {
-  const { user, setUser } = useContext(AuthContext);
-
-  const handleLogOut = () => {
-    setUser(null);
-    authStorage.removeToken();
-  }
+  const { user, logOut } = useAuth();
 
   return (
-
     <Screen style={styles.screen}>
       <View style={styles.container}>
         <ListItem
@@ -68,7 +61,7 @@ function AccountScreen({ navigation }) {
           IconComponent={
             <Icon name='logout' backgroundColor={colors.yellow} />
           }
-          onPress={handleLogOut}>
+          onPress={() => {logOut()}}>
         </ListItem>
       </View>
       

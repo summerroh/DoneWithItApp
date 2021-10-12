@@ -1,15 +1,23 @@
 //api client
 import { create } from 'apisauce';
 import cache from '../utility/cache';
+import authStorage from '../auth/storage';
 
 const client = create({
   baseURL: 'http://192.168.219.104:9000/api'
   // baseURL: 'http://192.168.100.80:9000/api'
 });
 
+//getting Authtoken from authStrage to pass it in the header of request to the server
+client.addAsyncRequestTransform( async (request) => {
+  const authToken = await authStorage.getToken();
+  if (!authToken) return;
+  request.headers["x-auth-token"] = authToken;
+});
+
 const get = client.get;
 client.get = async (url, params, axiosConfig) => {
-  //changing the implementation of the get method
+  //changing the implementation of the get method for cashe store
 
   // this is the original get function
   const response = await get(url, params, axiosConfig);
